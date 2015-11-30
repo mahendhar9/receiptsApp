@@ -7,6 +7,7 @@ angular.module('receiptsApp')
 .controller('ReceiptsCtrl', function($scope, firebaseService) {
   var receiptsCtrl = this;
   receiptsCtrl.receipts = firebaseService.receipts;
+  receiptsCtrl.images = firebaseService.images;
 
   receiptsCtrl.orderReceipts = function(dateString) {
     console.log(dateString);
@@ -30,10 +31,12 @@ angular.module('receiptsApp')
 
 })
 
-.controller('NewReceiptCtrl', function($scope, firebaseService, $state) {
+.controller('NewReceiptCtrl', function($scope, firebaseService, $firebaseArray, $state) {
   var newReceiptCtrl = this;
   newReceiptCtrl.date = new Date();
   newReceiptCtrl.receipts = firebaseService.receipts;
+
+  newReceiptCtrl.images = firebaseService.images;
 
   newReceiptCtrl.shopTypes = [
   {type: 'Restaurant'},
@@ -95,13 +98,30 @@ angular.module('receiptsApp')
     }
 
     newReceiptCtrl.create = function() {
-      newReceiptCtrl.receiptObj.date = ($scope.datepickerObjectPopup.inputDate).toString();
-      newReceiptCtrl.receiptObj.dateInMs = new Date($scope.datepickerObjectPopup.inputDate).getTime();
-      newReceiptCtrl.receipts.$add(newReceiptCtrl.receiptObj);
-      $state.go('receipts.all');
-      newReceiptCtrl.receiptObj = {};
-    }
+      var filesSelected = document.getElementById("file-upload").files;
+      if (filesSelected.length > 0)
+      {
+        var fileToLoad = filesSelected[0];
+        var fileReader = new FileReader();
+        var imageString;
 
+        fileReader.onload = function(fileLoadedEvent) {
+            imageString = fileLoadedEvent.target.result; // <--- data: base64
+            newReceiptCtrl.addReceipt(imageString);
+          }
+          fileReader.readAsDataURL(fileToLoad);
+        }
+        
+        newReceiptCtrl.addReceipt = function(imageString) {
+          newReceiptCtrl.receiptObj.imageString = imageString;
+          newReceiptCtrl.receiptObj.date = ($scope.datepickerObjectPopup.inputDate).toString();
+          newReceiptCtrl.receiptObj.dateInMs = new Date($scope.datepickerObjectPopup.inputDate).getTime();
+          newReceiptCtrl.receipts.$add(newReceiptCtrl.receiptObj);
+          $state.go('receipts.all');
+          document.getElementById("file-upload").value = '';
+          newReceiptCtrl.receiptObj = {};
+        }
+      }
 
-  })
+    })
 
