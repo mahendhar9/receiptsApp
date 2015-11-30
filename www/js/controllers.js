@@ -14,9 +14,19 @@ angular.module('receiptsApp')
 
 })
 
-.controller('NewReceiptCtrl', function($scope) {
+.controller('NewReceiptCtrl', function($scope, firebaseService, $state) {
   var newReceiptCtrl = this;
+  newReceiptCtrl.receipts = firebaseService.receipts;
 
+  newReceiptCtrl.shopTypes = [
+    {type: 'Restaurant'},
+    {type: 'Shopping'},
+    {type: 'Movies'},
+    {type: 'Travel'},
+    {type: 'Medical'},
+    {type: 'Other'}
+  ];
+  
   var disabledDates = [
   new Date(1437719836326),
       new Date(2015, 7, 10), //months are 0-based, this is August, 10th!
@@ -58,6 +68,21 @@ angular.module('receiptsApp')
         console.log('Selected date is : ', val)
       }
     };
+
+    newReceiptCtrl.receiptObj = {
+      shoppedAt: '',
+      total: '',
+      date: $scope.datepickerObject.inputDate.toString(),
+      shopType: ''
+    }
+
+    newReceiptCtrl.create = function() {
+      console.log(newReceiptCtrl.receiptObj);
+      newReceiptCtrl.receipts.$add(newReceiptCtrl.receiptObj);
+      $state.go('receipts.all');
+      newReceiptCtrl.receiptObj = {};
+    }
+
 
   })
 

@@ -3,12 +3,19 @@
     <ion-list>
       <ion-item class = "item-input">
         <span class="input-label">Shopped At</span>
-        <input type="text" placeholder="">
+        <input type="text" ng-model = "newReceiptCtrl.receiptObj.shoppedAt" placeholder="Name of the shop">
+      </ion-item>
+
+      <ion-item class="item-input">
+        <span class="input-label">Type</span>
+          <select ng-model="newReceiptCtrl.receiptObj.shopType">
+          <option ng-repeat="shopType in newReceiptCtrl.shopTypes" value="{{shopType.type}}">{{shopType.type}}</option>
+          </select>
       </ion-item>
 
       <ion-item class = "item-input">
         <span class="input-label">Total</span>
-        <input type="number" placeholder="">
+        <input type="number" ng-model = "newReceiptCtrl.receiptObj.total" placeholder="in Rs.">
       </ion-item>
     
       <ion-item class="item-stacked-label">
@@ -18,8 +25,10 @@
         </ionic-datepicker>
       </ion-item>
     </ion-list>
+
+
     
-    <button class="button button-block button-dark">
+    <button class="button button-block button-dark" ng-click="newReceiptCtrl.create()">
       Add
     </button>
   </ion-content>
