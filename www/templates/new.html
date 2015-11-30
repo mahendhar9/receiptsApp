@@ -1,0 +1,27 @@
+<ion-view view-title="Add New Receipt">
+  <ion-content>
+    <ion-list>
+      <ion-item class = "item-input">
+        <span class="input-label">Shopped At</span>
+        <input type="text" placeholder="">
+      </ion-item>
+
+      <ion-item class = "item-input">
+        <span class="input-label">Total</span>
+        <input type="number" placeholder="">
+      </ion-item>
+    
+      <ion-item class="item-stacked-label">
+        <span class="input-label">Select Date</span>
+        <ionic-datepicker input-obj="datepickerObjectPopup">
+          <button class="button button-outline button-small button-assertive"> {{datepickerObjectPopup.inputDate | date:'dd - MMMM - yyyy'}}</button>
+        </ionic-datepicker>
+      </ion-item>
+    </ion-list>
+    
+    <button class="button button-block button-dark">
+      Add
+    </button>
+  </ion-content>
+</ion-view>
+
