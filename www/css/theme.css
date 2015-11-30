@@ -1,0 +1,9 @@
+.item-avatar > img:first-child {
+  position: absolute;
+  top: 9px;
+  left: 11px;
+  max-width: 52px;
+  max-height: 52px;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%; }

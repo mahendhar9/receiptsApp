@@ -1,9 +1,20 @@
 <ion-view view-title="Receipts">
   <ion-content>
-    <ion-list>
-      <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
-        {{playlist.title}}
-      </ion-item>
-    </ion-list>
+
+  <div class="list card" ng-repeat = "receipt in receiptsCtrl.receipts | orderBy: '-dateInMs'">
+    <div class="item item-avatar">
+      <img ng-src="./img/{{receipt.shopType | lowercase }}.png">
+      <h2>{{receipt.shopName}}</h2>
+      <p>{{receiptsCtrl.getDate(receipt.date)}}</p>
+    </div>
+
+    <div class="item">
+    </div>
+
+    <div class="item">
+    <h3>{{receipt.total}}</h3>
+    </div>
+  </div>
+
   </ion-content>
 </ion-view>

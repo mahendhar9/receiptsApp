@@ -4,8 +4,24 @@ angular.module('receiptsApp')
 
 })
 
-.controller('ReceiptsCtrl', function() {
+.controller('ReceiptsCtrl', function($scope, firebaseService) {
   var receiptsCtrl = this;
+  receiptsCtrl.receipts = firebaseService.receipts;
+
+  receiptsCtrl.orderReceipts = function(dateString) {
+    console.log(dateString);
+  }
+  
+
+  receiptsCtrl.getDate = function(dateString) {
+    console.log(dateString);
+    var date = new Date(dateString);
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+    ];
+
+    return monthNames[date.getMonth()] + ' '  + date.getDate() + ', ' + date.getFullYear();
+  };
 
 })
 
@@ -16,15 +32,16 @@ angular.module('receiptsApp')
 
 .controller('NewReceiptCtrl', function($scope, firebaseService, $state) {
   var newReceiptCtrl = this;
+  newReceiptCtrl.date = new Date();
   newReceiptCtrl.receipts = firebaseService.receipts;
 
   newReceiptCtrl.shopTypes = [
-    {type: 'Restaurant'},
-    {type: 'Shopping'},
-    {type: 'Movies'},
-    {type: 'Travel'},
-    {type: 'Medical'},
-    {type: 'Other'}
+  {type: 'Restaurant'},
+  {type: 'Shopping'},
+  {type: 'Movies'},
+  {type: 'Travel'},
+  {type: 'Medical'},
+  {type: 'Other'}
   ];
   
   var disabledDates = [
@@ -65,19 +82,21 @@ angular.module('receiptsApp')
         console.log('No date selected');
       } else {
         $scope.datepickerObjectPopup.inputDate = val;
+        newReceiptCtrl.date = val;
+        // newReceiptCtrl.receiptObj.timeInMs = new Date(val).getTime();
         console.log('Selected date is : ', val)
       }
     };
 
     newReceiptCtrl.receiptObj = {
-      shoppedAt: '',
+      shopName: '',
       total: '',
-      date: $scope.datepickerObject.inputDate.toString(),
       shopType: ''
     }
 
     newReceiptCtrl.create = function() {
-      console.log(newReceiptCtrl.receiptObj);
+      newReceiptCtrl.receiptObj.date = ($scope.datepickerObjectPopup.inputDate).toString();
+      newReceiptCtrl.receiptObj.dateInMs = new Date($scope.datepickerObjectPopup.inputDate).getTime();
       newReceiptCtrl.receipts.$add(newReceiptCtrl.receiptObj);
       $state.go('receipts.all');
       newReceiptCtrl.receiptObj = {};
