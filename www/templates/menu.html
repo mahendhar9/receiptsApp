@@ -18,17 +18,23 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item menu-close href="#/receipts/all">
+        <ion-item menu-close href="#/receipts/all" >
           Home
         </ion-item>
-        <ion-item menu-close href="#/receipts/new">
+        <ion-item menu-close href="#/receipts/new" ng-show="mainCtrl.currentUser()">
           New Receipt
         </ion-item>
-        <ion-item menu-close ng-click="login()">
+        <ion-item menu-close href="#/receipts/login" ng-show="!mainCtrl.currentUser()">
           Login
+        </ion-item>
+        <ion-item menu-close href="#/receipts/signup" ng-show="!mainCtrl.currentUser()">
+          Signup
         </ion-item>
         <ion-item menu-close href="#/receipts/search">
           Search
+        </ion-item>
+        <ion-item menu-close ng-click="mainCtrl.logout()" ng-show="mainCtrl.currentUser()">
+          Logout
         </ion-item>
       </ion-list>
     </ion-content>

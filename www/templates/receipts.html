@@ -1,5 +1,5 @@
 <ion-view view-title="Receipts">
-  <ion-content>
+  <ion-content ng-show = "receiptsCtrl.currentUser()">
 
   <div class="list card" ng-repeat = "receipt in receiptsCtrl.receipts | orderBy: '-dateInMs'">
     <div class="item item-avatar">

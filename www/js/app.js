@@ -42,6 +42,28 @@ angular.module('receiptsApp', ['ionic', 'ionic-datepicker', 'firebase'])
     }
   })
 
+  .state('receipts.login', {
+    url: '/login',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/login.html',
+        controller: 'UserCtrl',
+        controllerAs: 'userCtrl'
+      }
+    }
+  })
+
+  .state('receipts.signup', {
+    url: '/signup',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/signup.html',
+        controller: 'UserCtrl',
+        controllerAs: 'userCtrl'
+      }
+    }
+  })
+
   .state('receipts.new', {
       url: '/new',
       views: {
@@ -74,5 +96,5 @@ angular.module('receiptsApp', ['ionic', 'ionic-datepicker', 'firebase'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/receipts/all');
+  $urlRouterProvider.otherwise('/receipts/login');
 });
