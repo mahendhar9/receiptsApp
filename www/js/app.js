@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('receiptsApp', ['ionic', 'ionic-datepicker', 'firebase'])
+angular.module('receiptsApp', ['ionic', 'ionic-datepicker', 'firebase', 'nvd3'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -85,6 +85,17 @@ angular.module('receiptsApp', ['ionic', 'ionic-datepicker', 'firebase'])
       }
     })
 
+    .state('receipts.analytics', {
+    url: '/analytics',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/analytics.html',
+        controller: 'AnalyticsCtrl',
+        controllerAs: 'analyticsCtrl'
+      }
+    }
+  })
+
   .state('receipts.single', {
     url: '/:receiptId',
     views: {
@@ -96,5 +107,5 @@ angular.module('receiptsApp', ['ionic', 'ionic-datepicker', 'firebase'])
     }
   });
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/receipts/login');
+  $urlRouterProvider.otherwise('/receipts/all');
 });

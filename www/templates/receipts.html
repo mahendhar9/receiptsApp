@@ -6,14 +6,15 @@
       <img ng-src="./img/{{receipt.shopType | lowercase }}.png">
       <h2>{{receipt.shopName}}</h2>
       <p>{{receiptsCtrl.getDate(receipt.date)}}</p>
+      <span class="badge badge-assertive">Rs. {{receipt.total}}</span>
     </div>
 
     <div class="item">
       <img class = "full-image" ng-src="{{receipt.imageString}}">
     </div>
 
-    <div class="item">
-    <h2>Rs. {{receipt.total}}</h2>
+    <div class="item item-text-wrap">
+    <h3>{{receipt.comments}}</h3>
     </div>
   </div>
 

@@ -7,7 +7,8 @@ angular.module('receiptsApp')
   firebaseService.userRef = firebaseService.rootRef.child("users");
   firebaseService.receiptsRef = firebaseService.rootRef.child("receipts");
   firebaseService.receipts = $firebaseArray(firebaseService.receiptsRef);
-  
+  firebaseService.analyticsRef = firebaseService.rootRef.child("analytics");
+  firebaseService.analytics = $firebaseArray(firebaseService.analyticsRef);
   
 
   firebaseService.signup = function(email, password) {

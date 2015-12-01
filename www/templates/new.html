@@ -30,8 +30,12 @@
         </ionic-datepicker>
       </ion-item>
     </ion-list>
-
-
+    
+    <ion-item class = "item-input">
+      <span class="input-label">Comments</span>
+      <textarea ng-model = "newReceiptCtrl.receiptObj.comments" rows="3"></textarea>
+    </ion-item>
+  
     
     <button class="button button-block button-dark" ng-click="newReceiptCtrl.create()">
       Add

@@ -108,6 +108,7 @@ angular.module('receiptsApp')
     shopName: '',
     total: '',
     shopType: '',
+    comments: '',
     userId: newReceiptCtrl.currentUser().uid
   }
 
@@ -154,5 +155,72 @@ angular.module('receiptsApp')
   }
 
   userCtrl.logout = firebaseService.logout;
+})
+
+.controller('AnalyticsCtrl', function($scope, $state, firebaseService, $firebaseObject) {
+  var analyticsCtrl = this;
+
+  analyticsCtrl.receipts = firebaseService.receipts;
+  analyticsCtrl.analytics = firebaseService.analytics;
+
+  var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
+  ];
+
+  angular.forEach(analyticsCtrl.receipts, function(receipt) {
+    analyticsCtrl.labelValue = $firebaseObject(firebaseService.analyticsRef.child(receipt.$id));
+    var date = new Date(receipt.dateInMs);
+    var receiptId = receipt.$id;
+    console.log("The receipt id is " + receiptId);
+    analyticsCtrl.labelValue.label = monthNames[date.getMonth()] + ' '  + date.getDate();
+    analyticsCtrl.labelValue.value = receipt.total;
+    analyticsCtrl.labelValue.receiptId = receipt.$id;
+
+    firebaseService.analyticsRef.child(receipt.$id).once('value', function(snapshot) {
+      var exists = (snapshot.val() !== null);
+      console.log("Does analytic exist? " + exists);
+      if (!exists) {
+        analyticsCtrl.labelValue.$save();
+        console.log("Analytic added");
+      }
+      else {
+        console.log("Analytic not added");
+      }
+    });
+  });
+
+  $scope.options = {
+    chart: {
+      type: 'discreteBarChart',
+      height: 450,
+      margin : {
+        top: 20,
+        right: 20,
+        bottom: 50,
+        left: 55
+      },
+      x: function(d){return d.label;},
+      y: function(d){return d.value;},
+      showValues: true,
+      valueFormat: function(d){
+        return d3.format(',.4f')(d);
+      },
+      duration: 500,
+      xAxis: {
+        axisLabel: 'Date'
+      },
+      yAxis: {
+        axisLabel: 'Spent (in Rs.)',
+        axisLabelDistance: -10
+      }
+    }
+  };
+
+  $scope.data = [
+  {
+    key: "Cumulative Return",
+    values: analyticsCtrl.analytics
+  }
+  ]
 })
 
