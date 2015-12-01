@@ -1,22 +1,28 @@
 <ion-view view-title="Receipts">
-  <ion-content ng-show = "receiptsCtrl.currentUser()">
+<div class="bar bar-subheader item-input-inset">
+  <label class="item-input-wrapper">
+    <i class="icon ion-ios-search placeholder-icon"></i>
+    <input type="search" placeholder="Search" ng-model = "search">
+  </label>
+</div>
+<ion-content class="has-subheader" ng-show = "receiptsCtrl.currentUser()">
 
-  <div class="list card" ng-repeat = "receipt in receiptsCtrl.receipts | orderBy: '-dateInMs'">
-    <div class="item item-avatar">
-      <img ng-src="./img/{{receipt.shopType | lowercase }}.png">
-      <h2>{{receipt.shopName}}</h2>
-      <p>{{receiptsCtrl.getDate(receipt.date)}}</p>
-      <span class="badge badge-assertive">Rs. {{receipt.total}}</span>
-    </div>
-
-    <div class="item">
-      <img class = "full-image" ng-src="{{receipt.imageString}}">
-    </div>
-
-    <div class="item item-text-wrap">
-    <h3>{{receipt.comments}}</h3>
-    </div>
+<div class="list card" ng-repeat = "receipt in receiptsCtrl.receipts | orderBy: '-dateInMs' | filter:search">
+  <div class="item item-avatar">
+    <img ng-src="./img/{{receipt.shopType | lowercase }}.png">
+    <h2>{{receipt.shopName}}</h2>
+    <p>{{receiptsCtrl.getDate(receipt.date)}}</p>
+    <span class="badge badge-assertive">Rs. {{receipt.total}}</span>
   </div>
 
-  </ion-content>
+  <div class="item">
+    <img class = "full-image" ng-src="{{receipt.imageString}}">
+  </div>
+
+  <div class="item item-text-wrap">
+    <h3>{{receipt.comments}}</h3>
+  </div>
+</div>
+
+</ion-content>
 </ion-view>
